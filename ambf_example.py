@@ -10,7 +10,7 @@ _client = Client()
 _client.connect()
 
 print('\n\n----')
-raw_input("We can see what objects the client has found. Press Enter to continue...")
+input("We can see what objects the client has found. Press Enter to continue...")
 # You can print the names of objects found. We should see all the links found
 print(_client.get_obj_names())
 
@@ -23,7 +23,7 @@ psm_handle = _client.get_obj_handle('psm/baselink')
 time.sleep(0.2)
 
 print('\n\n----')
-raw_input("Let's Get Some Pose Info. Press Enter to continue...")
+input("Let's Get Some Pose Info. Press Enter to continue...")
 # Not we can print the pos and rotation of object in the World Frame
 print('ECM Base Pos:')
 print(psm_handle.get_pos())
@@ -37,7 +37,7 @@ print('MTM Wrist Fixed Rotation:')
 print(psm_handle.get_rpy())
 
 print('\n\n----')
-raw_input("Let's get Joints and Children Info. Press Enter to continue...")
+input("Let's get Joints and Children Info. Press Enter to continue...")
 # We can get the number of children and joints connected to each object as
 psm_num_joints = psm_handle.get_num_joints() # Get the number of joints of this object
 psm_children_names = psm_handle.get_children_names() # Get a list of children names belonging to this obj
@@ -47,10 +47,9 @@ print(psm_num_joints)
 print(' ')
 print('Name of PSM\'s children:')
 print(psm_children_names)
-
-psm_handle.set_joint_pos(3, -0.2)
+psm_handle.set_joint_pos(1, -0.2)
 
 print('\n\n----')
-raw_input("Let's clean up. Press Enter to continue...")
+input("Let's clean up. Press Enter to continue...")
 # Lastly to cleanup
 _client.clean_up()

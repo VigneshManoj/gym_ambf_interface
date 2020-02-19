@@ -1,26 +1,32 @@
 import gym
 import numpy as np
-
 from stable_baselines.ddpg.policies import MlpPolicy
 from stable_baselines.common.noise import NormalActionNoise, OrnsteinUhlenbeckActionNoise, AdaptiveParamNoiseSpec
 from stable_baselines import DDPG
 import gym_robot
+from ambf_comm import AmbfEnvEdit
 
-env = gym.make('robot-v0')
+ENV_NAME = 'psm/pitchendlink'
+
+
+# Get the environment and extract the number of actions.
+env = AmbfEnvEdit()
+env.make(ENV_NAME)
+env.reset()
 i = 0
 # the noise objects for DDPG
 # print("actions space ", np.abs(env.action_space.low), np.abs(env.action_space.high))
-n_actions = env.action_space.shape[-1]
+n_actions = env.action_space.shape[0]
 param_noise = None
 action_noise = OrnsteinUhlenbeckActionNoise(mean=np.zeros(n_actions), sigma=float(0.5) * np.ones(n_actions))
 
 model = DDPG(MlpPolicy, env, verbose=1, param_noise=param_noise, action_noise=action_noise, render_eval=False)
 model.learn(total_timesteps=1000, log_interval=10)
-model.save("/home/vignesh/PycharmProjects/ddpg_robot_1")
+model.save("/home/vignesh/PycharmProjects/dvrk_automated_suturing/max_ent_trial5_with_ddpg_stable_baseline/ddpg_robot_1")
 # print(model.actor_loss, model.critic_loss)
 del model # remove to demonstrate saving and loading
 
-model = DDPG.load("/home/vignesh/PycharmProjects/ddpg_robot_1")
+model = DDPG.load("/home/vignesh/PycharmProjects/dvrk_automated_suturing/max_ent_trial5_with_ddpg_stable_baseline/ddpg_robot_1")
 
 # print(env.action_space)
 # while True:
